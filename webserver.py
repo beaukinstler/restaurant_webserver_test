@@ -61,7 +61,8 @@ class webServerHandler(BaseHTTPRequestHandler):
 
 def main():
     try:
-        port = 8081
+        port = 8082
+        
         server = HTTPServer(('', port), webServerHandler)
         print "Web Server running on port %s" % port
         server.serve_forever()
