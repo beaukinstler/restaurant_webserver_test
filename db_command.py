@@ -37,6 +37,16 @@ def update_item(object_name):
         print("Error message:" % e.message)
 
 # Get all the restaurants
+def list_all_restaurants():
+    """
+    List all restaurants by name and id, order based on data table
+    """
+    
+    restaurants = ses.query(Restaurant)
+
+    for restaurant in restaurants:
+        print("Name: {}, ID: {}".format(str(restaurant.name), str(restaurant.res_id)))
+
 
 
 # Find restaurant by ID
