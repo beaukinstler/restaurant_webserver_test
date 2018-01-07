@@ -36,7 +36,7 @@ def update_item(object_name):
         print("Problem commiting the update in %s" % object_name.name)
         print("Error message:" % e.message)
 
-# Get all the restaurants
+# Print out all the restaurants
 def list_all_restaurants():
     """
     List all restaurants by name and id, order based on data table
@@ -47,6 +47,14 @@ def list_all_restaurants():
     for restaurant in restaurants:
         print("Name: {}, ID: {}".format(str(restaurant.name), str(restaurant.res_id)))
 
+
+def get_all_restaurants():
+    """
+    Get all restaurants by name and id, order based on data table
+    Returns: An iterable list of restaurant objects
+    """
+    
+    return ses.query(Restaurant)
 
 
 # Find restaurant by ID
