@@ -8,6 +8,6 @@ def restaurant_list(restaurants):
     output += "<h1> Restaurants: </h1>"
     output += "<div><ul>"
     for restaurant in restaurants:
-        output += "<li>" + restaurant.name + "</li>"
+        output += "<li>" + restaurant.name + " - " + str(restaurant.res_id) + "</li>"
     output += "</ul></div>"
     return output

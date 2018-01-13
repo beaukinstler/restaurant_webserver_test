@@ -38,8 +38,42 @@ def build_new_restaurant_form():
 
     return form
 
+def build_del_restaurant_form():
+    """
+    Build a form for adding a deleting a restaurant from the database
+
+    Args: String - Name of the restaurant TODO: format this like other function code headings
+    """
+
+    form = ''
+    form += '''<form method='POST' enctype='multipart/form-data' action='/restaurant/delete'>
+                <h2>Enter the ID number of the restaurant to delete:</h2>
+                <input name="restaurant_id" type="text" >
+                <input type="submit" value="Submit"> </form>'''
+
+    return form
+
 
 class webserverHandler(BaseHTTPRequestHandler):
+
+    def do_DELETE(self):
+        print("Made it here! DELETE methods are at least getting called")
+        self.send_response(200)
+        self.send_header('Content-type', 'text/html')
+        self.end_headers()
+        ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
+        print(type(ctype))
+
+        if ctype == 'multipart/form-data':
+            fields = cgi.parse_multipart(self.rfile, pdict)
+            if self.path.endswith("/restaurant/delete"):
+                try:
+                    restaurant_id = fields.get('restaurant_id')
+                    db_command.delete_restaurant(restaurant_id)        
+
+                except:
+                    print("Wasn't able to get the restaurant ID or delete it without error")
+                    pass
 
     def do_POST(self):
         
@@ -51,6 +85,8 @@ class webserverHandler(BaseHTTPRequestHandler):
             print(type(ctype))
             if ctype == 'multipart/form-data':
                 fields = cgi.parse_multipart(self.rfile, pdict)
+                output = ""
+                output += "<html><body>"                
                 if self.path.endswith("/restaurants"):
                     # handle the restaurant add form
                     # print("made it here 02")
@@ -62,33 +98,40 @@ class webserverHandler(BaseHTTPRequestHandler):
                     restaurant_name = str(db_command.get_restaurant(id).name)
                     # print("Restaurant name: " + str(restaurant_name[0]))
                     output = ""
-                    output += "<html><body>"
+
                     output += "<h2> Restaurant Added:</h2>"
                     output += "<h3> %s </h3>" % restaurant_name
                     output += build_new_restaurant_form()
                     output += restaurants_views.restaurant_list(db_command.get_all_restaurants())
-                    output += "</body></html>"
                     # pdb.set_trace()
                     print(output)
 
+                elif self.path.endswith("/restaurant/delete"):
+                    try:
+                        restaurant_id = fields.get('restaurant_id')[0]
+                        print(restaurant_id)
+                        db_command.delete_restaurant(int(restaurant_id)) 
+                        output += "<p> Restaurant " + restaurant_id + " deleted.</p>"    
+
+                    except:
+                        print("Wasn't able to get the restaurant ID or delete it without error")
+                        pass
+
                 elif self.path.endswith("/hello"):
                     messagecontent = fields.get('message[0]')
-                    output = ""
-                    output += "<html><body>"
                     output += "  <h2> Okay, this:</h2>"
                     output += "<h1> %s </h1>" % messagecontent[0]
                     output += build_form()
-                    output += "</body></html>"
-
+                    
                 else:
-                    output = ""
-                    output += "<html><body>"
                     output += "  <h2> Okay, this:</h2>"
                     output += "<h1> %s </h1>" % "Hmm, we go lost..."
                     output += build_form()
-                    output += "</body></html>"
+
 
             # pdb.set_trace()
+            output += "</body></html>"
+
             self.wfile.write(output)
             print("Made it...\n")
         except:
@@ -153,6 +196,22 @@ class webserverHandler(BaseHTTPRequestHandler):
                 output += "<html><body>"
                 output += "<h1> Hello to you! </h1>"
                 output += build_new_restaurant_form()
+                output += "</body></html>"
+
+                self.wfile.write(output)
+                print(output)
+                return
+
+            elif self.path.endswith("/restaurant/delete"):
+                self.send_response(200)
+                self.send_header('Content-type', 'text/html')
+                self.end_headers()
+
+                output = ""
+                output += "<html><body>"
+                output += "<h1>They come and they go! </h1>"
+                output += build_del_restaurant_form()
+                output += restaurants_views.restaurant_list(db_command.get_all_restaurants())
                 output += "</body></html>"
 
                 self.wfile.write(output)
