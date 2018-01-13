@@ -31,7 +31,7 @@ def build_new_restaurant_form():
     """
 
     form = ''
-    form += '''<form method='POST' enctype='multipart/form-data' action='/restaurant/new'>
+    form += '''<form method='POST' enctype='multipart/form-data' action='/restaurants'>
                 <h2>What's the name of the restaurant?</h2>
                 <input name="restaurant_name" type="text" >
                 <input type="submit" value="Submit"> </form>'''
@@ -51,7 +51,7 @@ class webserverHandler(BaseHTTPRequestHandler):
             print(type(ctype))
             if ctype == 'multipart/form-data':
                 fields = cgi.parse_multipart(self.rfile, pdict)
-                if self.path.endswith("/restaurant/new"):
+                if self.path.endswith("/restaurants"):
                     # handle the restaurant add form
                     # print("made it here 02")
                     restaurant_name = fields.get('restaurant_name')
@@ -66,6 +66,7 @@ class webserverHandler(BaseHTTPRequestHandler):
                     output += "<h2> Restaurant Added:</h2>"
                     output += "<h3> %s </h3>" % restaurant_name
                     output += build_new_restaurant_form()
+                    output += restaurants_views.restaurant_list(db_command.get_all_restaurants())
                     output += "</body></html>"
                     # pdb.set_trace()
                     print(output)
@@ -135,10 +136,9 @@ class webserverHandler(BaseHTTPRequestHandler):
                 self.end_headers()
 
                 output = ""
-                # output += "<html><body>"
-                # output += "<h1> Restaurants: </h1>"
+                output += "<html><body>"
                 output += restaurants_views.restaurant_list(db_command.get_all_restaurants())
-                # output += "</body></html>"
+                output += "</body></html>"
 
                 self.wfile.write(output)
                 print(output)
