@@ -31,7 +31,7 @@ def build_new_restaurant_form():
     """
 
     form = ''
-    form += '''<form method='POST' enctype='multipart/form-data' action='/restaurants'>
+    form += '''<form method='POST' enctype='multipart/form-data' action='/restaurants/new'>
                 <h2>What's the name of the restaurant?</h2>
                 <input name="restaurant_name" type="text" >
                 <input type="submit" value="Submit"> </form>'''
@@ -49,7 +49,7 @@ def build_del_restaurant_form(id):
 
     form = ''
     form += '''<form method='POST' enctype='multipart/form-data' action='/restaurant/delete'>
-                <h2>Hit submit to delete {}</h2>
+                <h2>If you're sure, hit submit to delete "{}"</h2>
                 <input type="hidden" name="restaurant_id" type="text" value="'''.format(current_name)
     form += str(id)            
     form += '''"><input type="submit" value="Submit"> </form>'''
@@ -100,8 +100,9 @@ class webserverHandler(BaseHTTPRequestHandler):
             if ctype == 'multipart/form-data':
                 fields = cgi.parse_multipart(self.rfile, pdict)
                 output = ""
-                output += "<html><body>"                
-                if self.path.endswith("/restaurants"):
+                output += "<html><body>" 
+                output += restaurants_views.nav_links()               
+                if self.path.endswith("/restaurants/new"):
                     # handle the restaurant add form
                     # print("made it here 02")
                     restaurant_name = fields.get('restaurant_name')
@@ -163,6 +164,7 @@ class webserverHandler(BaseHTTPRequestHandler):
 
 
             # pdb.set_trace()
+            output += restaurants_views.nav_links()
             output += "</body></html>"
 
             self.wfile.write(output)
@@ -193,6 +195,7 @@ class webserverHandler(BaseHTTPRequestHandler):
 
             output = ""
             output += "<html><body>"
+            output += restaurants_views.nav_links()
 
             if action == 'edit':
                 self.send_response(200)
@@ -200,7 +203,6 @@ class webserverHandler(BaseHTTPRequestHandler):
                 self.end_headers()
                 # form to edit an item
                 output += build_update_restaurant_form(id)
-
 
             elif action == 'delete':
                 self.send_response(200)
@@ -253,7 +255,7 @@ class webserverHandler(BaseHTTPRequestHandler):
                 # print(output)
                 # return        
             
-            elif self.path.endswith("/restaurant/new"):
+            elif self.path.endswith("/restaurants/new"):
                 self.send_response(200)
                 self.send_header('Content-type', 'text/html')
                 self.end_headers()
@@ -297,6 +299,7 @@ class webserverHandler(BaseHTTPRequestHandler):
                 output += "</body></html>"
 
             # Wrap up the output, and send
+            output += restaurants_views.nav_links()
             output += "</body></html>"
             self.wfile.write(output)
             print(output)

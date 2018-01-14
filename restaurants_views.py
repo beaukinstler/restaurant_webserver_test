@@ -14,3 +14,25 @@ def restaurant_list(restaurants):
         output += "</li>"
     output += "</ul></div>"
     return output
+
+def nav_links():
+    """
+    Purpose: Links to have on top and bottom of each page
+    """
+    output = ""
+    paths = {'home': '/restaurants',
+             'add new restaurant': '/restaurants/new',
+             'about': '#'}
+    
+    last_key = paths.keys()[-1]
+    for label,link in paths.items():
+        output += "<a href='"
+        output += str(link)
+        output += "'>"
+        output += str(label)
+        output += "</a>"
+        if label != last_key:
+            output += " - "
+    
+    return output
+
