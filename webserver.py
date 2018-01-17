@@ -94,6 +94,9 @@ class webserverHandler(BaseHTTPRequestHandler):
         try:
             self.send_response(301)
             self.send_header('Content-type', 'text/html')
+            #self.send_header('Location','/restaurants') # adding this Location will skip the confirmation 
+                                                         # html 'output' created below, but
+                                                         # but still execute the CRUD functions
             self.end_headers()
             ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
             print(type(ctype))
