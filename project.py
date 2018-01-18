@@ -15,8 +15,8 @@ session = DBSession()
 @app.route('/')
 @app.route('/restaurants/<int:restaurant_id>/')
 def restaurantMenu(restaurant_id):
-    restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
-    items = session.query(MenuItem).filter_by(restaurant_id=restaurant.id)
+    restaurant = session.query(Restaurant).filter_by(res_id=restaurant_id).one()
+    items = session.query(MenuItem).filter_by(restaurant_id=restaurant.res_id)
     output = ''
     for i in items:
         output += i.name
@@ -29,20 +29,40 @@ def restaurantMenu(restaurant_id):
     return output
 
 # Task 1: Create route for newMenuItem function here
+def build_new_menuItem_form(res_id):
+    """
+    Build a form for adding a new restaurant to the database
 
+    Args: String - Name of the restaurant TODO: format this like other function code headings
+    """
 
+    form = ''
+    form += '''<form method='POST' enctype='multipart/form-data' action='/restaurants/new'>
+                <h2>What's the details of the item?</h2>
+                Name: <input name="name" type="text" label="Name" >
+                Price: <input name="price" type="text" label="Price">
+                <input type="submit" value="Submit"> </form>'''
+
+    return form
+
+@app.route('/restaurant/<int:restaurant_id>/menu/new')
 def newMenuItem(restaurant_id):
+    output = ""
+    restaurant = session.query(Restaurant).filter_by(res_id=restaurant_id).one()
+    items = session.query(MenuItem).filter_by(restaurant_id=restaurant.res_id)
+
     return "page to create a new menu item. Task 1 complete!"
 
 # Task 2: Create route for editMenuItem function here
 
-
+@app.route('/restaurant/<int:restaurant_id>/menu/<int:menu_id>/edit')
 def editMenuItem(restaurant_id, menu_id):
     return "page to edit a menu item. Task 2 complete!"
 
 # Task 3: Create a route for deleteMenuItem function here
 
 
+@app.route('/restaurant/<int:restaurant_id>/menu/<int:menu_id>/delete')
 def deleteMenuItem(restaurant_id, menu_id):
     return "page to delete a menu item. Task 3 complete!"
 
