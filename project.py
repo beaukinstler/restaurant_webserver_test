@@ -27,7 +27,8 @@ def restaurantMenu(restaurant_id):
         output += '</br>'
         output += '</br>'
     # return output
-    return render_template('menu.html',restaurant=restaurant,items=items)
+    user = 'admin'
+    return render_template('menu.html',restaurant=restaurant,items=items,user=user)
 
 # Task 1: Create route for newMenuItem function here
 def build_new_menuItem_form(res_id):
