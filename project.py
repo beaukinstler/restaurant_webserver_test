@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, url_for, render_template
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database_setup import BASE, Restaurant, MenuItem
@@ -26,7 +26,8 @@ def restaurantMenu(restaurant_id):
         output += i.description
         output += '</br>'
         output += '</br>'
-    return output
+    # return output
+    return render_template('menu.html',restaurant=restaurant,items=items)
 
 # Task 1: Create route for newMenuItem function here
 def build_new_menuItem_form(res_id):
