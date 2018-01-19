@@ -102,6 +102,19 @@ def update_restaurant(res_id, name):
     restaurant.name = name
     update_item(restaurant)
 
+def get_all_menu_items(res_id):
+    """ Using an ID, return a menu item
+
+    Args:
+    res_id - (int) id from the restaurant table, for which
+             menu to return
+    Returns:
+    List of (Object.MenuItem) Menu item objects
+    """
+
+    items = ses.query(MenuItem).filter_by(restaurant_id=res_id)
+    return items
+
 
 def get_menu_item(id_to_find):
     """ Using an ID, return a menu item
