@@ -9,6 +9,16 @@ from sqlalchemy import create_engine
 
 BASE = declarative_base()
 
+class Category(BASE):
+    """
+    Define restaurant class
+    Extends a constant of an instance of declarative_base()
+    """
+
+    __tablename__ = 'category'
+
+    category = Column(String(80), nullable=False)
+    cat_id =  Column(Integer, primary_key=True)
 
 class Restaurant(BASE):
     """
@@ -21,6 +31,8 @@ class Restaurant(BASE):
     name = Column(String(80), nullable=False)
     res_id = Column(Integer, primary_key=True)
 
+    cat_id =  Column(Integer, ForeignKey('category.cat_id'))
+    category = relationship(Category)
 
 class MenuItem(BASE):
     """
