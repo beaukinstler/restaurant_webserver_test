@@ -6,7 +6,7 @@ from sqlalchemy import exc
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from database_setup import Restaurant, BASE, MenuItem
+from database_setup import Restaurant, BASE, MenuItem, Category
 
 engine = create_engine('sqlite:///restaurantmenu.db')
 # Bind the engine to the metadata of the Base class so that the
@@ -66,12 +66,12 @@ def get_restaurant(id_to_find):
 
 
 # Add a new restaurant
-def add_restaurant(restaurant_name):
+def add_restaurant(restaurant_name,category_id):
     """
 
     """
 
-    restaurant = Restaurant(name=restaurant_name)
+    restaurant = Restaurant(name=restaurant_name,category_id=category_id)
     ses.add(restaurant)
     ses.commit()
     new_restaurant = \
@@ -132,7 +132,7 @@ def get_menu_item(id_to_find):
     return item
 
 
-def add_menu_item(res_id, name, price=0):
+def add_menu_item(res_id, name, description, price=0):
     """
     Using an id and a restaurant, add a menu item
 
@@ -146,7 +146,8 @@ def add_menu_item(res_id, name, price=0):
     id - (int) Id of the new item
     """
 
-    item = MenuItem(name=name, price=price, restaurant_id=res_id)
+    item = MenuItem(name=name, price=price, \
+        restaurant_id=res_id, description=description)
     ses.add(item)
     ses.commit()
     new_item = \
@@ -162,13 +163,73 @@ def delete_menu_item(men_id):
     ses.commit()
 
 
-def update_menu_item(men_id, name, price):
+def update_menu_item(men_id, name, description, price):
     """using an id, update the details of a menu item"""
 
     item = get_menu_item(men_id)
     if str(name) != "":
         item.name = str(name)
+    if str(description) != "":
+        item.description = str(description)
     if str(price) != "":
-        item.price = price
+        item.price = str(price)
 
     update_item(item)
+
+
+# Return all the categories
+def get_all_categories():
+    """
+    Get all restaurants by name and id, order based on data table
+    Returns: An iterable list of restaurant objects
+    """
+    
+    return ses.query(Category)
+
+# Add a new restaurant
+def add_category(category_name):
+    """
+
+    """
+
+    category = Category(category=category_name)
+    ses.add(category)
+    ses.commit()
+    new_category = \
+        ses.query(Category).filter_by(category=category_name).one()
+    return new_category.category_id
+
+# get a category
+def get_category(category_id):
+    """
+    Return a category object
+    """
+
+    category =  ses.query(Category).filter_by(category_id=category_id).one()
+    return category
+
+
+def update_category(category_id, category_name):
+    """using an id, update the details of a restaurant
+
+    Args:
+    category_id - (int) id from the catgeory table, for the
+             restaurant being changed.
+    category_name - (string) New Name of the category.
+    """
+    category = get_category(category_id)
+    category.category = category_name
+    update_item(category)
+
+def delete_category(category_id):
+    """using an id, delete a category
+
+    Args:
+    category_id - (int) id from the catgeory table, for the
+             restaurant being changed.
+    category_name - (string) New Name of the category.
+    """
+    cat = get_category(category_id)
+
+    ses.delete(cat)
+    ses.commit()
