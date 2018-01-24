@@ -18,7 +18,7 @@ class Category(BASE):
     __tablename__ = 'category'
 
     category = Column(String(80), nullable=False)
-    cat_id =  Column(Integer, primary_key=True)
+    category_id =  Column(Integer, primary_key=True)
 
 class Restaurant(BASE):
     """
@@ -31,7 +31,7 @@ class Restaurant(BASE):
     name = Column(String(80), nullable=False)
     res_id = Column(Integer, primary_key=True)
 
-    cat_id =  Column(Integer, ForeignKey('category.cat_id'))
+    category_id =  Column(Integer, ForeignKey('category.category_id'))
     category = relationship(Category)
 
 class MenuItem(BASE):
