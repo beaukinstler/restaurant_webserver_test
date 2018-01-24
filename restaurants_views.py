@@ -20,11 +20,12 @@ def nav_links():
     Purpose: Links to have on top and bottom of each page
     """
     output = ""
-    paths = {'home': '/restaurants',
-             'add new restaurant': '/restaurants/new',
-             'about': '#'}
+    paths = {'Home': '/',
+             'Categories': '/categories',
+             'Add New Restaurant': '/restaurant/new',
+             'About': '#'}
     
-    last_key = paths.keys()[-1]
+    last_key = list(paths.keys())[-1]
     for label,link in paths.items():
         output += "<a href='"
         output += str(link)
