@@ -59,15 +59,24 @@ a {
     float: left;
 }
 
-.description {}
+.description {
+    width: 50%;
+    display: inline-block;
+    float: left;
+}
 
 .price {
     text-align: right;
     width: 50%;
+    display: inline-block;
     float: right;
 }
 
-.editdeletepane {}
+.editdeletepane {
+    text-align: left;
+    display: inline-block;
+    float: left;
+}
 
 .flash {
     background: #cee5f5;
