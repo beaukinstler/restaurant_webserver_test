@@ -20,7 +20,7 @@ session = DBSession()
 
 
 # Menu for UrbanBurger
-restaurant1 = Restaurant(name="Urban Burger")
+restaurant1 = Restaurant(name="Urban Burger", category_id=1)
 
 session.add(restaurant1)
 session.commit()
@@ -82,7 +82,7 @@ session.commit()
 
 
 # Menu for Super Stir Fry
-restaurant2 = Restaurant(name="Super Stir Fry")
+restaurant2 = Restaurant(name="Super Stir Fry", category_id=1)
 
 session.add(restaurant2)
 session.commit()
@@ -126,7 +126,7 @@ session.commit()
 
 
 # Menu for Panda Garden
-restaurant1 = Restaurant(name="Panda Garden")
+restaurant1 = Restaurant(name="Panda Garden", category_id=1)
 
 session.add(restaurant1)
 session.commit()
@@ -164,7 +164,7 @@ session.commit()
 
 
 # Menu for Thyme for that
-restaurant1 = Restaurant(name="Thyme for That Vegetarian Cuisine ")
+restaurant1 = Restaurant(name="Thyme for That Vegetarian Cuisine ", category_id=1)
 
 session.add(restaurant1)
 session.commit()
@@ -208,7 +208,7 @@ session.commit()
 
 
 # Menu for Tony's Bistro
-restaurant1 = Restaurant(name="Tony\'s Bistro ")
+restaurant1 = Restaurant(name="Tony\'s Bistro ", category_id=1)
 
 session.add(restaurant1)
 session.commit()
@@ -246,7 +246,7 @@ session.commit()
 
 
 # Menu for Andala's
-restaurant1 = Restaurant(name="Andala\'s")
+restaurant1 = Restaurant(name="Andala\'s", category_id=1)
 
 session.add(restaurant1)
 session.commit()
@@ -284,7 +284,7 @@ session.commit()
 
 
 # Menu for Auntie Ann's
-restaurant1 = Restaurant(name="Auntie Ann\'s Diner ")
+restaurant1 = Restaurant(name="Auntie Ann\'s Diner ", category_id=1)
 
 session.add(restaurant1)
 session.commit()
@@ -334,7 +334,7 @@ session.commit()
 
 
 # Menu for Cocina Y Amor
-restaurant1 = Restaurant(name="Cocina Y Amor ")
+restaurant1 = Restaurant(name="Cocina Y Amor ", category_id=1)
 
 session.add(restaurant1)
 session.commit()
@@ -353,7 +353,7 @@ session.add(menuItem2)
 session.commit()
 
 
-restaurant1 = Restaurant(name="State Bird Provisions")
+restaurant1 = Restaurant(name="State Bird Provisions", category_id=1)
 session.add(restaurant1)
 session.commit()
 
@@ -377,4 +377,4 @@ session.add(menuItem1)
 session.commit()
 
 
-print "added menu items!"
+print("added menu items!")
